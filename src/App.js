@@ -5,15 +5,25 @@ import Inputs from "./components/Inputs";
 import TimeAndLocation from "./components/TimeAndLocation";
 import TemperatureAndDetails from "./components/TemperatureAndDetails";
 import Forecast from "./components/Forecast";
-import getFormatedWeatherData from "./components/services/weatherService";
+import getFormatedWeatherData, {
+  formatToLocalTime,
+} from "./components/services/weatherService";
+import { useState } from "react";
 
 function App() {
-  const fetchWeather = async () => {
-    const data = await getFormatedWeatherData({ q: "london" });
-    console.log(data);
-  };
+  const [weather, setWeather] = useState(null);
 
-  fetchWeather();
+  useState(() => {
+    const fetchWeather = async () => {
+      await getFormatedWeatherData({ q: "borchówka", units: "metric" }).then(
+        (data) => setWeather(data)
+      );
+    };
+
+    fetchWeather();
+  }, []);
+
+  console.log(weather);
 
   return (
     <div
@@ -24,9 +34,36 @@ function App() {
     >
       <TopButtons />
       <Inputs />
-
-      <TimeAndLocation />
-      <TemperatureAndDetails />
+      {weather && (
+        <>
+          <TimeAndLocation
+            secs={weather.dt}
+            zone={weather.timezone}
+            city={weather.name}
+            country={weather.country}
+          />
+          <TemperatureAndDetails
+            details={weather.details}
+            icon={weather.icon}
+            temp={weather.temp}
+            tempReal={weather.feels_like}
+            humidity={weather.humidity}
+            wind={weather.speed}
+            sunrise={formatToLocalTime(
+              weather.sunrise,
+              weather.timezone,
+              "hh:mm a"
+            )}
+            sunset={formatToLocalTime(
+              weather.sunset,
+              weather.timezone,
+              "hh:mm a"
+            )}
+            tempMax={weather.temp_max}
+            tempMin={weather.temp_min}
+          />
+        </>
+      )}
 
       <Forecast title="hourly forecast" />
       <Forecast title="daily forecast" />
