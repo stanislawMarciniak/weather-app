@@ -3,6 +3,10 @@ import React from "react";
 function TopButtons({ setCity }) {
   const cities = [
     {
+      id: 0,
+      title: "Warsaw",
+    },
+    {
       id: 1,
       title: "London",
     },
@@ -16,10 +20,6 @@ function TopButtons({ setCity }) {
     },
     {
       id: 4,
-      title: "Toronto",
-    },
-    {
-      id: 5,
       title: "Paris",
     },
   ];

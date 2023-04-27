@@ -10,7 +10,12 @@ import { useEffect, useState } from "react";
 function App() {
   const [weather, setWeather] = useState(null);
   const [units, setUnits] = useState("metric");
-  const [city, setCity] = useState("london");
+  const [degrees, setDegrees] = useState("°F");
+  const [city, setCity] = useState("warsaw");
+
+  useEffect(() => {
+    degrees === "°C" ? setDegrees("°F") : setDegrees("°C");
+  }, [units]);
 
   useEffect(() => {
     const fetchWeather = () => {
