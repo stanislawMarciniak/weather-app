@@ -1,29 +1,26 @@
 import "./App.css";
-import UilReact from "@iconscout/react-unicons/icons/uil-react";
 import TopButtons from "./components/TopButtons";
 import Inputs from "./components/Inputs";
 import TimeAndLocation from "./components/TimeAndLocation";
 import TemperatureAndDetails from "./components/TemperatureAndDetails";
 import Forecast from "./components/Forecast";
-import getFormatedWeatherData, {
-  formatToLocalTime,
-} from "./components/services/weatherService";
-import { useState } from "react";
+import getFormatedWeatherData from "./components/services/weatherService";
+import { useEffect, useState } from "react";
 
 function App() {
   const [weather, setWeather] = useState(null);
+  const [units, setUnits] = useState("metric");
+  const [city, setCity] = useState("london");
 
-  useState(() => {
+  useEffect(() => {
     const fetchWeather = () => {
-      getFormatedWeatherData({ q: "london", units: "metric" }).then((data) =>
-        setWeather(data)
-      );
+      getFormatedWeatherData({ q: city, units }).then((data) => {
+        setWeather(data);
+      });
     };
 
     fetchWeather();
-  }, []);
-
-  console.log(weather?.hourly);
+  }, [units, city]);
 
   return (
     <div
@@ -32,12 +29,12 @@ function App() {
     bg-gradient-to-br from-cyan-700 to-blue-700 
     h-fit shadow-xl shadow-gray-400"
     >
-      <TopButtons />
-      <Inputs />
+      <TopButtons setCity={setCity} />
+      <Inputs setUnits={setUnits} />
       {weather && (
         <>
           <TimeAndLocation weather={weather} />
-          <TemperatureAndDetails weather={weather} />
+          <TemperatureAndDetails weather={weather} units={units} />
           <Forecast title="hourly forecast" weather={weather.hourly} />
           <Forecast title="daily forecast" weather={weather.daily} />
         </>
