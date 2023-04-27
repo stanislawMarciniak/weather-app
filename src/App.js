@@ -14,16 +14,16 @@ function App() {
   const [weather, setWeather] = useState(null);
 
   useState(() => {
-    const fetchWeather = async () => {
-      await getFormatedWeatherData({ q: "borchówka", units: "metric" }).then(
-        (data) => setWeather(data)
+    const fetchWeather = () => {
+      getFormatedWeatherData({ q: "london", units: "metric" }).then((data) =>
+        setWeather(data)
       );
     };
 
     fetchWeather();
   }, []);
 
-  console.log(weather);
+  console.log(weather?.hourly);
 
   return (
     <div
@@ -36,37 +36,12 @@ function App() {
       <Inputs />
       {weather && (
         <>
-          <TimeAndLocation
-            secs={weather.dt}
-            zone={weather.timezone}
-            city={weather.name}
-            country={weather.country}
-          />
-          <TemperatureAndDetails
-            details={weather.details}
-            icon={weather.icon}
-            temp={weather.temp}
-            tempReal={weather.feels_like}
-            humidity={weather.humidity}
-            wind={weather.speed}
-            sunrise={formatToLocalTime(
-              weather.sunrise,
-              weather.timezone,
-              "hh:mm a"
-            )}
-            sunset={formatToLocalTime(
-              weather.sunset,
-              weather.timezone,
-              "hh:mm a"
-            )}
-            tempMax={weather.temp_max}
-            tempMin={weather.temp_min}
-          />
+          <TimeAndLocation weather={weather} />
+          <TemperatureAndDetails weather={weather} />
+          <Forecast title="hourly forecast" weather={weather.hourly} />
+          <Forecast title="daily forecast" weather={weather.daily} />
         </>
       )}
-
-      <Forecast title="hourly forecast" />
-      <Forecast title="daily forecast" />
     </div>
   );
 }
