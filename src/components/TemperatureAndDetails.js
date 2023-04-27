@@ -11,7 +11,7 @@ import {
 import { iconUrlFromCode } from "./services/weatherService";
 import { formatToLocalTime } from "./services/weatherService";
 
-function TemperatureAndDetails({ weather }) {
+function TemperatureAndDetails({ weather, units }) {
   const sunrise = formatToLocalTime(
     weather.sunrise,
     weather.timezone,
@@ -59,7 +59,7 @@ function TemperatureAndDetails({ weather }) {
             <UilWind size={18} className="mr-1 " />
             Wind:
             <span className="font-medium ml-1">
-              {weather.speed.toFixed()} km/h
+              {weather.speed.toFixed()} {units === "metric" ? "km/h" : "mph"}
             </span>
           </div>
         </div>
