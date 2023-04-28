@@ -11,7 +11,7 @@ function App() {
   const [weather, setWeather] = useState(null);
   const [units, setUnits] = useState("metric");
   const [degrees, setDegrees] = useState("°F");
-  const [city, setCity] = useState("warsaw");
+  const [parameters, setParameters] = useState({ q: "warsaw" });
 
   useEffect(() => {
     degrees === "°C" ? setDegrees("°F") : setDegrees("°C");
@@ -19,27 +19,36 @@ function App() {
 
   useEffect(() => {
     const fetchWeather = () => {
-      getFormatedWeatherData({ q: city, units }).then((data) => {
+      getFormatedWeatherData({ ...parameters, units }).then((data) => {
         setWeather(data);
       });
     };
 
     fetchWeather();
-  }, [units, city]);
+  }, [units, parameters]);
+
+  const formatBackground = () => {
+    if(!weather) return "from-cyan-700 to-blue-700"
+    const 
+  };
 
   return (
     <div
       className="
     mx-auto max-w-screen-md mt-4 py-5 px-32 
-    bg-gradient-to-br from-cyan-700 to-blue-700 
+    bg-gradient-to-br 
     h-fit shadow-xl shadow-gray-400"
     >
-      <TopButtons setCity={setCity} />
-      <Inputs setUnits={setUnits} />
+      <TopButtons setCity={setParameters} />
+      <Inputs setUnits={setUnits} setCity={setParameters} />
       {weather && (
         <>
           <TimeAndLocation weather={weather} />
-          <TemperatureAndDetails weather={weather} units={units} />
+          <TemperatureAndDetails
+            weather={weather}
+            units={units}
+            degrees={degrees}
+          />
           <Forecast title="hourly forecast" weather={weather.hourly} />
           <Forecast title="daily forecast" weather={weather.daily} />
         </>
