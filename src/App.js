@@ -26,12 +26,14 @@ function App() {
     toast.info("Fetching weather for " + message);
 
     const fetchWeather = () => {
-      getFormatedWeatherData({ ...city, units }).then((data) => {
-        toast.success(
-          `Successfully fetched weather for ${data.name}, ${data.country}`
-        );
-        setWeather(data);
-      });
+      getFormatedWeatherData({ ...city, units })
+        .then((data) => {
+          toast.success(
+            `Successfully fetched weather for ${data.name}, ${data.country}`
+          );
+          setWeather(data);
+        })
+        .catch(() => toast.error(`Error: Failed to fetch weather`));
     };
     console.log("dupa");
     fetchWeather();
