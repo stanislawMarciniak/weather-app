@@ -6,8 +6,11 @@ function Inputs({ setUnits, setCity }) {
 
   const setMetric = () => setUnits("metric");
   const setImperial = () => setUnits("imperial");
-  const handleSearch = () => setCity(citySearch);
+  const handleSearch = () => setCity({ q: citySearch });
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") setCity({ q: citySearch });
+  };
   const handleLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -23,6 +26,7 @@ function Inputs({ setUnits, setCity }) {
     <div className="flex flex-row justify-center my-6 ">
       <div className="flex flex-row w-3/4 items-center justify-center space-x-4 ">
         <input
+          onKeyDown={handleKeyDown}
           onChange={(e) => setCitySearch(e.target.value)}
           value={citySearch}
           type="text"
