@@ -11,7 +11,7 @@ import {
 import { iconUrlFromCode } from "./services/weatherService";
 import { formatToLocalTime } from "./services/weatherService";
 
-function TemperatureAndDetails({ weather, units }) {
+function TemperatureAndDetails({ weather, units, degrees }) {
   const sunrise = formatToLocalTime(
     weather.sunrise,
     weather.timezone,
@@ -32,7 +32,7 @@ function TemperatureAndDetails({ weather, units }) {
        text-white py-3 "
       >
         <img src={iconUrlFromCode(weather.icon)} alt="" className="w-20" />
-        <p className="text-5xl">{weather.temp.toFixed()}°</p>
+        <p className="text-5xl">{weather.temp.toFixed() + " " + degrees}</p>
         <div className="flex flex-col space-y-2">
           <div
             className="flex font-light text-sm items-center 
