@@ -35,7 +35,6 @@ function App() {
         })
         .catch(() => toast.error(`Error: Failed to fetch weather`));
     };
-    console.log("dupa");
     fetchWeather();
   }, [units, city]);
 
