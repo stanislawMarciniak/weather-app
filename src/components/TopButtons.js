@@ -8,7 +8,7 @@ function TopButtons({ setCity }) {
     },
     {
       id: 1,
-      title: "London",
+      title: "Sahara",
     },
     {
       id: 2,
@@ -30,7 +30,7 @@ function TopButtons({ setCity }) {
         <button
           onClick={() => setCity({ q: city.title })}
           key={city.id}
-          className="text-white text-lg font-medium "
+          className="text-lg font-medium text-white "
         >
           {city.title}
         </button>
