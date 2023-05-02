@@ -21,10 +21,6 @@ function App() {
   }, [units]);
 
   useEffect(() => {
-    const message = city.q ? city.q : "current location";
-
-    toast.info("Fetching weather for " + message);
-
     const fetchWeather = () => {
       getFormatedWeatherData({ ...city, units })
         .then((data) => {
@@ -35,6 +31,7 @@ function App() {
         })
         .catch(() => toast.error(`Error: Failed to fetch weather`));
     };
+
     fetchWeather();
   }, [units, city]);
 
